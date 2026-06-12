@@ -28,7 +28,7 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt --use-deprecated=legacy-resolver
 
 # Copy scripts directory and install Node.js dependencies for attachment sending
-COPY support/scripts/ ./scripts/
+COPY scripts/ ./scripts/
 RUN cd scripts && npm install --production && cd ..
 
 # Copy application code

@@ -104,20 +104,9 @@ cython_debug/
 
 # AI Assistant generated files
 .claude/
-.spec-workflow/
-.openspec/
 
-# Temporary files and reports
-*_REPORT.md
-*_SUMMARY.md
-INTEGRATION_STATUS.md
-
-# Test files
-test_*.py
-verify_*.sql
-
-# Legacy documentation
-docs/legacy/
+# Generated transcripts / script output
+scripts/output/
 
 # Environment files with secrets
 .env
