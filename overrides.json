@@ -1,0 +1,1 @@
+{"containerOverrides":[{"name":"photon-ingest","command":["python","-m","app.integrations.kafka_topic_bootstrap"]}]}

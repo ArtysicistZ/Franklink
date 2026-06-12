@@ -1,0 +1,53 @@
+onboarding e2e transcript
+started_at: 2026-01-12T02:20:49.426618Z
+phone_number: +15555117713
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+frank: btw, what school are you at?
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: just a quick reminder, you'll need to connect your work or school gmail to continue with the onboarding. after u connect, say done.
+frank: https://backend.composio.dev/api/v3/s/hAL_127H
+
+-- turn 4 --
+user: done, connected
+frank: cool, alex. i see you’re into product management and ai. who do you want to meet and what do you want to gain from those connections?
+
+-- turn 5 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: nice, alex. what specific feedback are you looking for from those product leads?
+
+-- turn 6 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink runs on mutual usefulness, not just random connections. 
+intro starts at $99.00 but we’ll get it to $0 as you share your value. 
+what specific skills, knowledge, or experiences do you bring to the table that others would find genuinely useful?
+
+-- turn 7 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, now we're talking. a campus marketplace for 1.8k students is a solid start. 12% growth is impressive, but what specific strategies did you use to achieve that?
+
+$9.75 now. i need to know what else you bring to the table. any other skills, knowledge, or network connections that could be useful to others?
+
+-- turn 8 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, now we're getting somewhere. sharing playbooks on onboarding funnels and growth loops is solid, but what's the actual impact of those strategies?
+
+contacts at two seed funds is also intriguing, but how might those connections help someone in the network?
+
+bringing it down to $6.50. what else can you offer that adds even more value?
+
+-- turn 9 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, running a student builder club is a nice touch. connecting people to solid engineers is also a win, but how do those engineers add value? 
+
+that's like having a secret weapon but no battle plan. 
+
+bringing it down to $3.25 now. what else do you have that could help someone in a different lane, like specific knowledge or resources?

@@ -1,0 +1,49 @@
+onboarding e2e transcript
+started_at: 2026-01-12T00:38:31.981761Z
+phone_number: +15558060194
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: cool, alex. so, who are you looking to meet in product management or AI?
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: got it, alex. what specific feedback are you looking for from those product leads?
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink is all about trading value, not just collecting connections.
+we start at $99.00 for intros, but we're working toward $0.
+what specific skills, experiences, or resources do you have that others would find genuinely useful?
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that's a solid achievement with the campus marketplace. 1.8k students is impressive, but what else do you bring to the table?
+
+we're down to $9.75 now, but that's just the start. what other skills, knowledge, or resources do you have that could help someone else in the network?
+
+maybe something about your experience in product management or AI?
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, now we're talking! playbooks on onboarding funnels and growth loops are definitely useful. that's a solid addition to your toolkit.
+
+but contacts at two seed funds? that sounds like a great start, but how do those connections actually help others?
+
+dropped you to $6.50. before we wrap this up, what specific knowledge or experiences do you have that would be valuable to someone else in the network?
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: that's more like it! running a student builder club is a solid experience. connecting others to engineers is huge, but what projects did your club tackle?
+
+brought you down to $3.25. now, let’s dig into the specifics. what did you actually accomplish with those engineers? any tangible results?
+
+and how does this all tie into your product management or AI interests?

@@ -1,0 +1,45 @@
+onboarding e2e transcript
+started_at: 2026-01-07T02:08:05.651090Z
+phone_number: +15552457208
+-- turn 1 --
+user: hey, i am alex
+frank: yo i’m frank. linkedin would accept anyone. i don’t. what school are you at?
+state: onboarding_stage=school waiting_for=school intro_fee_cents=None
+
+-- turn 2 --
+user: i go to usc
+frank: quick list. linkedin loves essays; i don’t. what careers are you into?
+state: onboarding_stage=career_interest waiting_for=career_interest intro_fee_cents=None
+
+-- turn 3 --
+user: i am into product and ai
+frank: hey alex. sounds like you're into product management and ai. who do you want to meet and what do you want to gain from them?
+state: onboarding_stage=needs_eval waiting_for=user_input intro_fee_cents=None
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: cool, so you want to connect with product leads at consumer startups for feedback and internships. any specific companies or types of startups you're targeting?
+state: onboarding_stage=needs_eval waiting_for=user_input intro_fee_cents=None
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: locked. need is clear and specific. welcome to franklink
+hey alex, franklink isn’t linkedin. i need to know what you bring to the table before we dive into your needs. trust is fragile and intros are expensive. intro right now is $99, but you can earn $0 by showing what you can offer. so, what skills or experiences do you have that could be useful?
+state: onboarding_stage=value_eval waiting_for=user_input intro_fee_cents=9900
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: impressive work on that campus marketplace! running growth at 12 percent weekly is no small feat. now, aside from your project, what other distinct value do you bring to the table perhaps some unique knowledge or connections the intro fee is still $99, but it can drop to $0 if you show more value?
+state: onboarding_stage=value_eval waiting_for=user_input intro_fee_cents=9900
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: intro is $99 now, earn $0 by showing what you offer.
+solid! sharing playbooks on onboarding funnels and growth loops is definitely useful. having contacts at seed funds is a nice touch too. i'm curious, how have you helped others with these resources or connections any specific examples?
+state: onboarding_stage=value_eval waiting_for=user_input intro_fee_cents=9900
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: intro is $99 now, earn $0 by showing what you offer.
+nice, running a student builder club is a great way to foster talent! connecting folks to solid engineers is a valuable asset too. how have you leveraged your club or those connections to benefit others any specific examples?
+state: onboarding_stage=value_eval waiting_for=user_input intro_fee_cents=9900

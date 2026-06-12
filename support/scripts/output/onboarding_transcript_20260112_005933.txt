@@ -1,0 +1,34 @@
+onboarding e2e transcript
+started_at: 2026-01-12T00:59:21.702611Z
+phone_number: +15555005314
+-- turn 1 --
+user: hey, i am alex
+frank: hey alex, nice to meet you what’s up
+
+-- turn 2 --
+user: i go to usc
+frank: cool, usc's got a ton of opportunities and connections. what are you into these days?
+
+-- turn 3 --
+user: i am into product and ai
+frank: nice mix if you're into product and ai there's a lot happening out there. looking for networking or collab opportunities?
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: that’s smart i’ll help you connect with some product leads at consumer startups. are you open to events or networking chats?
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: got it i’ll keep an eye out for events or projects in la or remote. stay tuned
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: that's impressive sounds like you have some solid experience. want to connect with others who’ve scaled similar projects or get feedback on your growth strategies?
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: that’s impressive would you be down to share your insights in a small group session? it could really help others and you might connect with some leads too
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: awesome you could really help others level up. let's set up a chat to share those playbooks and connect those engineers. how does that sound?

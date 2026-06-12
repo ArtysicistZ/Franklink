@@ -1,0 +1,18 @@
+{
+  "name": "franklink-scripts",
+  "version": "1.0.0",
+  "description": "Utility scripts for Franklink",
+  "type": "module",
+  "scripts": {
+    "send-attachment": "npx ts-node --esm send_attachment.ts"
+  },
+  "dependencies": {
+    "@photon-ai/advanced-imessage-kit": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.0.0"
+  }
+}

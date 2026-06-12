@@ -1,0 +1,95 @@
+{
+  "family": "__ECS_TASK_FAMILY__",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "__ECS_TASK_CPU__",
+  "memory": "__ECS_TASK_MEMORY__",
+  "executionRoleArn": "__ECS_TASK_EXECUTION_ROLE_ARN__",
+  "taskRoleArn": "__ECS_TASK_ROLE_ARN__",
+  "containerDefinitions": [
+    {
+      "name": "groupchat-summary-worker",
+      "image": "__IMAGE_URI__",
+      "essential": true,
+      "workingDirectory": "/app",
+      "command": ["python", "-m", "app.groupchat.summary.worker", "--loop", "--interval-seconds", "__GROUPCHAT_WORKER_POLL_SECONDS__"],
+      "environmentFiles": [
+        {
+          "type": "s3",
+          "value": "__ECS_ENV_FILE_ARN__"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "__ECS_LOG_GROUP__",
+          "awslogs-region": "__AWS_REGION__",
+          "awslogs-stream-prefix": "worker"
+        }
+      }
+    },
+    {
+      "name": "groupchat-followup-worker",
+      "image": "__IMAGE_URI__",
+      "essential": true,
+      "workingDirectory": "/app",
+      "command": ["python", "-m", "app.groupchat.followup.worker", "--loop", "--interval-seconds", "10"],
+      "environmentFiles": [
+        {
+          "type": "s3",
+          "value": "__ECS_ENV_FILE_ARN__"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "__ECS_LOG_GROUP__",
+          "awslogs-region": "__AWS_REGION__",
+          "awslogs-stream-prefix": "followup-worker"
+        }
+      }
+    },
+    {
+      "name": "daily-email-worker",
+      "image": "__IMAGE_URI__",
+      "essential": false,
+      "workingDirectory": "/app",
+      "command": ["python", "-m", "app.proactive.email.worker", "--loop", "--interval-seconds", "300"],
+      "environmentFiles": [
+        {
+          "type": "s3",
+          "value": "__ECS_ENV_FILE_ARN__"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "__ECS_LOG_GROUP__",
+          "awslogs-region": "__AWS_REGION__",
+          "awslogs-stream-prefix": "daily-email-worker"
+        }
+      }
+    },
+    {
+      "name": "proactive-outreach-worker",
+      "image": "__IMAGE_URI__",
+      "essential": false,
+      "workingDirectory": "/app",
+      "command": ["python", "-m", "app.proactive.outreach.worker", "--loop", "--interval-seconds", "300"],
+      "environmentFiles": [
+        {
+          "type": "s3",
+          "value": "__ECS_ENV_FILE_ARN__"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "__ECS_LOG_GROUP__",
+          "awslogs-region": "__AWS_REGION__",
+          "awslogs-stream-prefix": "proactive-outreach-worker"
+        }
+      }
+    }
+  ]
+}

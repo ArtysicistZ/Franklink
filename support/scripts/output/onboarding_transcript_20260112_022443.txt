@@ -1,0 +1,53 @@
+onboarding e2e transcript
+started_at: 2026-01-12T02:24:14.074701Z
+phone_number: +15552189599
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+frank: btw, what school are you at?
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: just a quick reminder, you'll need to connect your work or school gmail to continue with the onboarding. after u connect, say done.
+frank: https://backend.composio.dev/api/v3/s/O1MELqH-
+
+-- turn 4 --
+user: done, connected
+frank: got it, alex. who do you want to meet in product management or AI, and what do you want to gain from those connections?
+
+-- turn 5 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: cool, alex. any specific consumer startups you're eyeing?
+
+-- turn 6 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink is all about trading mutual usefulness, not just collecting connections. 
+intro starts at $99.00, but we’re working it down to $0. 
+what specific skills, experiences, or knowledge do you have that would be valuable to others in the network?
+
+-- turn 7 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that's a solid start. building a marketplace for 1.8k students is impressive and shows you can execute.
+
+but what else do you bring to the table? like, do you have any specific skills in product management or knowledge in AI that could help others?
+dropped you to $9.75. let's get more distinct values to work with.
+
+-- turn 8 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay nice, sharing playbooks on onboarding funnels and growth loops is a solid addition. 
+
+but 'contacts at two seed funds' is a bit vague. what specific connections do you have that could actually help someone out?
+
+i'm bringing you down to $6.50. let's see if you can give me something more concrete here.
+
+-- turn 9 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, running a builder club is a nice touch, but calling engineers 'solid' is a bit vague. 
+
+what specific skills or projects do these engineers have that could actually help someone in the network? 
+dropped you to $3.25. let's get more concrete details here.

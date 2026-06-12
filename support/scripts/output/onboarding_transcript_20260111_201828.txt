@@ -1,0 +1,49 @@
+onboarding e2e transcript
+started_at: 2026-01-11T20:17:46.909304Z
+phone_number: +15555485439
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: hey alex. sounds like you’re into product management and ai. who do you want to meet and what do you want to get from them?
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: cool, so product leads at consumer startups for feedback and internships. any specific companies or locations you have in mind?
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink runs on mutual usefulness, not just collecting connections. 
+intro starts at $99.00 but we'll get it to $0 as you show your value. 
+what specific skills or experiences do you have that could actually help others in the network?
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that's a solid number. running a campus marketplace for 1.8k students is impressive, but let's dive deeper.
+
+what specific strategies or actions did you take to achieve that 12 percent growth? that's the kind of detail that shows real value.
+
+dropped you to $9.75, but i need to see more distinct values. any other skills, knowledge, or resources you can share?
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, now we're talking. playbooks on onboarding funnels and growth loops sound way more useful than just 'helping with growth.'
+
+contacts at two seed funds is a solid network to leverage. 
+
+bringing it down to $6.50. now, can you tell me what specific outcomes your playbooks have achieved? like, how did they impact user acquisition or retention?
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, now we're really stacking up some value. running a student builder club is a nice touch, but connecting people to engineers is a bit vague. 
+
+what kind of projects did you work on in the club? and what specific skills do those engineers have that could be useful to others? 
+
+dropped you to $3.25. let's keep building that value.

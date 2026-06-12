@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: franklink-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+    ports:
+      - "2181:2181"
+    networks:
+      franklink-network:
+        aliases:
+          - zookeeper
+          - franklink-zookeeper
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: franklink-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=franklink-zookeeper:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    networks:
+      franklink-network:
+        aliases:
+          - kafka
+          - franklink-kafka
+    healthcheck:
+      test: ["CMD", "bash", "-c", "kafka-topics --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  photon-ingest:
+    build: .
+    container_name: franklink-photon-ingest
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8001 --workers 1
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+      - APP_LOG_LEVEL=INFO
+      - PHOTON_INGEST_MODE=kafka
+      - PHOTON_CONSUMER_MODE=off
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_SECURITY_PROTOCOL=PLAINTEXT
+      - KAFKA_SASL_MECHANISM=
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - franklink-network
+    restart: unless-stopped
+
+  frank-worker:
+    build: .
+    container_name: franklink-worker
+    ports:
+      - "8000:8000"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+      - APP_LOG_LEVEL=INFO
+      - PHOTON_INGEST_MODE=off
+      - PHOTON_CONSUMER_MODE=consumer
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_CONSUMER_AUTO_OFFSET_RESET=earliest
+      - KAFKA_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_SECURITY_PROTOCOL=PLAINTEXT
+      - KAFKA_SASL_MECHANISM=
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - franklink-network
+    restart: unless-stopped
+
+  background-workers:
+    build: .
+    container_name: franklink-background-workers
+    command: python -m app.workers.background_supervisor
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app
+    depends_on: []
+    networks:
+      - franklink-network
+    restart: unless-stopped
+
+networks:
+  franklink-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  redis-data:
+  # postgres-data:

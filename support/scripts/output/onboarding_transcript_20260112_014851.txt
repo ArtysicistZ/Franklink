@@ -1,0 +1,59 @@
+onboarding e2e transcript
+started_at: 2026-01-12T01:48:19.844386Z
+phone_number: +15555307137
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: hey alex, just a quick reminder that you need to connect your work/school gmail to continue with the onboarding process. can you do that for me?
+
+-- turn 4 --
+user: yeah, send the gmail link
+frank: hey alex, to continue onboarding, you'll need to connect your work/school gmail. please open the link below to do that and reply 'done' when you're finished.
+
+https://backend.composio.dev/api/v3/s/BaIyLNrN
+
+-- turn 5 --
+user: done, connected
+frank: cool, alex. you're into product management and ai. who do you want to meet and what do you want to gain from them?
+
+-- turn 6 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: got it, alex. what specific feedback are you looking for from those product leads?
+
+-- turn 7 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink runs on what you offer, not just what you want.
+intro starts at $99.00 but we're getting it to $0.
+what specific skills or knowledge do you have that would be valuable to others in product management or artificial intelligence?
+
+-- turn 8 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that's a concrete achievement. a campus marketplace for 1.8k students is impressive.
+
+but running growth to 12 percent weekly feels a bit vague. what specific strategies did you employ to achieve that?
+
+dropped you to $9.75. i'm curious about the impact you had on those students. what value did they actually gain from your marketplace?
+
+-- turn 9 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, now we're talking. sharing playbooks on onboarding funnels and growth loops is a solid move. 
+
+but those contacts at seed funds? feels a bit like a vague 'network' flex. what specific insights or introductions can you provide through them?
+
+dropped you to $6.50. let's round out your value profile with some concrete details here.
+
+-- turn 10 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, running a builder club is a nice addition. but connecting to a few engineers feels a bit light. 
+
+what specific skills or projects do those engineers have that can actually benefit others? 
+
+bringing it down to $3.25. let's see how deep this network really goes.

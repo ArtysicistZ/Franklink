@@ -1,0 +1,53 @@
+onboarding e2e transcript
+started_at: 2026-01-12T01:59:54.196912Z
+phone_number: +15554918203
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: just a quick reminder, you'll need to connect your work/school gmail to continue with the onboarding process. would you like to do that now?
+
+-- turn 4 --
+user: done, connected
+frank: got it, alex. who do you want to meet in product management or AI, and what do you want to gain from them?
+
+-- turn 5 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: cool, alex. what specific feedback are you looking for from those product leads?
+
+-- turn 6 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink is all about mutual usefulness, not just collecting connections. 
+intro starts at $99.00 but we'll work it down to $0. 
+what specific skills, knowledge, or experiences do you have that others would find valuable?
+
+-- turn 7 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that sounds like a solid project with real numbers. 1.8k students is impressive, but how did you specifically drive that 12% growth? 
+
+brought you down to $9.75. now, tell me more about what else you bring to the table. any unique skills, knowledge, or resources that could help others? 
+
+let's get into the specifics of your value.
+
+-- turn 8 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, sharing playbooks on onboarding funnels is a solid angle. that could definitely help someone looking to ramp up their user base.
+
+but contacts at seed funds? that's like saying you have a friend with a yacht. who can actually use that?
+
+dropped you to $6.50. tell me more about those playbooks. what specific results did they drive for you or others?
+
+-- turn 9 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, running a student builder club is a good angle. that shows you’re engaged and can pull in talent. 
+
+but connecting people to engineers? that’s like saying you know a guy who knows a guy. what kind of engineers are we talking about here? 
+
+dropped you to $3.25. let’s get specific on those playbooks and club experiences. what tangible results did they bring?

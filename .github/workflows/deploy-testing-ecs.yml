@@ -1,0 +1,374 @@
+name: Deploy to Testing (ECS)
+
+on:
+  workflow_dispatch:
+    inputs:
+      create_service_if_missing:
+        description: "Create ECS service if it doesn't exist"
+        required: true
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      worker_poll_seconds:
+        description: "Group chat summary worker poll interval (seconds)"
+        required: true
+        default: "5"
+        type: choice
+        options: ["5", "10", "20", "60"]
+
+env:
+  AWS_REGION: us-east-2
+  ECR_REPOSITORY: frank-ai
+
+  ECS_CLUSTER: ${{ secrets.TESTING_ECS_CLUSTER }}
+  ECS_SERVICE: ${{ secrets.TESTING_ECS_SERVICE }}
+  ECS_TASK_FAMILY: ${{ secrets.TESTING_ECS_TASK_FAMILY }}
+  ECS_WORKER_DESIRED_COUNT: "5"
+  ECS_INGEST_DESIRED_COUNT: "1"
+  ECS_BACKGROUND_DESIRED_COUNT: "1"
+
+  ECS_TASK_EXECUTION_ROLE_ARN: ${{ secrets.TESTING_ECS_TASK_EXECUTION_ROLE_ARN }}
+  ECS_TASK_ROLE_ARN: ${{ secrets.TESTING_ECS_TASK_ROLE_ARN }}
+  ECS_TASK_CPU: ${{ secrets.TESTING_ECS_TASK_CPU }}
+  ECS_TASK_MEMORY: ${{ secrets.TESTING_ECS_TASK_MEMORY }}
+
+  ECS_SUBNETS_CSV: ${{ secrets.TESTING_ECS_SUBNETS_CSV }}
+  ECS_SECURITY_GROUPS_CSV: ${{ secrets.TESTING_ECS_SECURITY_GROUPS_CSV }}
+
+  ECS_LOG_GROUP: ${{ secrets.TESTING_ECS_LOG_GROUP }}
+
+  # The workflow uploads the repo `.env` to: s3://franklink-testing-config-${account_id}/.env
+  # and uses it via ECS `environmentFiles`.
+  ECS_ENV_S3_KEY: ".env"
+
+jobs:
+  deploy:
+    name: Build and Deploy to ECS (Testing)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    concurrency:
+      group: deploy-testing-ecs
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Generate version tag
+        id: version
+        run: |
+          GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          VERSION="testing-ecs-v${TIMESTAMP}-${GIT_SHA}"
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Generated version: ${VERSION}"
+
+      - name: Build Docker image
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ steps.version.outputs.VERSION }}
+        run: |
+          docker build \
+            --platform linux/amd64 \
+            --build-arg VERSION=${IMAGE_TAG} \
+            --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
+            --build-arg GIT_COMMIT=${{ github.sha }} \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:testing-ecs \
+            .
+          echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Push Docker image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ steps.version.outputs.VERSION }}
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:testing-ecs
+
+      - name: Prepare and upload .env to S3
+        env:
+          ECS_ENV_FILE_CONTENT: ${{ secrets.TESTING_ECS_ENV_FILE_CONTENT }}
+        run: |
+          set -euo pipefail
+          if [ ! -f .env ]; then
+            if [ -n "${ECS_ENV_FILE_CONTENT:-}" ]; then
+              printf "%s" "$ECS_ENV_FILE_CONTENT" > .env
+            else
+              echo "Missing .env in repo checkout and TESTING_ECS_ENV_FILE_CONTENT is not set."
+              exit 1
+            fi
+          fi
+
+          python - <<'PY'
+          from pathlib import Path
+          required = {
+              "AZURE_OPENAI_API_KEY",
+              "AZURE_OPENAI_ENDPOINT",
+              "AZURE_OPENAI_DEPLOYMENT_NAME",
+              "SUPABASE_URL",
+              "SUPABASE_KEY",
+              "PHOTON_SERVER_URL",
+              "PHOTON_DEFAULT_NUMBER",
+              "COMPOSIO_API_KEY",
+              "COMPOSIO_AUTH_CONFIG_ID",
+          }
+          data = {}
+          for raw in Path(".env").read_text(encoding="utf-8").splitlines():
+              line = raw.strip()
+              if not line or line.startswith("#") or "=" not in line:
+                  continue
+              k, v = line.split("=", 1)
+              data[k.strip()] = v.strip()
+          missing = [k for k in sorted(required) if not data.get(k)]
+          if missing:
+              raise SystemExit(f".env is missing required keys: {', '.join(missing)}")
+          PY
+
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          BUCKET="franklink-testing-config-${ACCOUNT_ID}"
+          S3_URI="s3://${BUCKET}/${ECS_ENV_S3_KEY}"
+
+          aws s3 cp .env "${S3_URI}"
+
+          ENV_ARN="arn:aws:s3:::${BUCKET}/${ECS_ENV_S3_KEY}"
+          echo "ECS_ENV_FILE_ARN=${ENV_ARN}" >> $GITHUB_ENV
+          echo "ECS_ENV_FILE_S3_URI=${S3_URI}" >> $GITHUB_ENV
+
+      - name: Verify required ECS inputs
+        run: |
+          set -euo pipefail
+          test -n "$ECS_CLUSTER"
+          test -n "$ECS_SERVICE"
+          test -n "$ECS_TASK_FAMILY"
+          test -n "$ECS_TASK_EXECUTION_ROLE_ARN"
+          test -n "$ECS_TASK_ROLE_ARN"
+          test -n "$ECS_TASK_CPU"
+          test -n "$ECS_TASK_MEMORY"
+          test -n "$ECS_SUBNETS_CSV"
+          test -n "$ECS_SECURITY_GROUPS_CSV"
+          test -n "$ECS_LOG_GROUP"
+          test -n "$ECS_ENV_FILE_ARN"
+
+      - name: Ensure CloudWatch log group exists
+        run: |
+          set -euo pipefail
+          aws logs create-log-group --log-group-name "$ECS_LOG_GROUP" >/dev/null 2>&1 || true
+          aws logs put-retention-policy --log-group-name "$ECS_LOG_GROUP" --retention-in-days 14 >/dev/null 2>&1 || true
+
+      - name: Render task definition
+        id: taskdef
+        env:
+          IMAGE_URI: ${{ steps.build-image.outputs.IMAGE_URI }}
+          GROUPCHAT_WORKER_POLL_SECONDS: ${{ inputs.worker_poll_seconds }}
+          ECS_TASK_FAMILY_WORKER: ${{ env.ECS_TASK_FAMILY }}
+          ECS_TASK_FAMILY_INGEST: ${{ env.ECS_TASK_FAMILY }}-ingest
+          ECS_TASK_FAMILY_BACKGROUND: ${{ env.ECS_TASK_FAMILY }}-background
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          env_data = {}
+          env_path = Path(".env")
+          if env_path.exists():
+              for raw in env_path.read_text(encoding="utf-8").splitlines():
+                  line = raw.strip()
+                  if not line or line.startswith("#") or "=" not in line:
+                      continue
+                  k, v = line.split("=", 1)
+                  env_data[k.strip()] = v.strip()
+
+          def required_env(key: str) -> str:
+              val = str(env_data.get(key) or "").strip()
+              if not val:
+                  raise SystemExit(f"Missing required key in .env for taskdef render: {key}")
+              return val
+
+          base = {
+              "__AWS_REGION__": os.environ["AWS_REGION"],
+              "__ECS_TASK_CPU__": os.environ["ECS_TASK_CPU"],
+              "__ECS_TASK_MEMORY__": os.environ["ECS_TASK_MEMORY"],
+              "__ECS_TASK_EXECUTION_ROLE_ARN__": os.environ["ECS_TASK_EXECUTION_ROLE_ARN"],
+              "__ECS_TASK_ROLE_ARN__": os.environ["ECS_TASK_ROLE_ARN"],
+              "__ECS_LOG_GROUP__": os.environ["ECS_LOG_GROUP"],
+              "__ECS_ENV_FILE_ARN__": os.environ["ECS_ENV_FILE_ARN"],
+              "__IMAGE_URI__": os.environ["IMAGE_URI"],
+          }
+          worker_repl = {
+              **base,
+              "__ECS_TASK_FAMILY__": os.environ["ECS_TASK_FAMILY_WORKER"],
+              "__COMPOSIO_API_KEY__": required_env("COMPOSIO_API_KEY"),
+              "__COMPOSIO_AUTH_CONFIG_ID__": required_env("COMPOSIO_AUTH_CONFIG_ID"),
+              "__LOGIN_PAGE_URL__": env_data.get("LOGIN_PAGE_URL", ""),
+          }
+          ingest_repl = {
+              **base,
+              "__ECS_TASK_FAMILY__": os.environ["ECS_TASK_FAMILY_INGEST"],
+          }
+          background_repl = {
+              **base,
+              "__ECS_TASK_FAMILY__": os.environ["ECS_TASK_FAMILY_BACKGROUND"],
+              "__GROUPCHAT_WORKER_POLL_SECONDS__": os.environ["GROUPCHAT_WORKER_POLL_SECONDS"],
+          }
+          optional_keys = {"__LOGIN_PAGE_URL__"}
+
+          def render(src_path: str, out_path: str, repl: dict) -> None:
+              src = Path(src_path).read_text(encoding="utf-8")
+              for k, v in repl.items():
+                  if not v and k not in optional_keys:
+                      raise SystemExit(f"Missing required env for template: {k}")
+                  src = src.replace(k, v)
+              Path(out_path).write_text(src, encoding="utf-8")
+
+          render("infrastructure/aws/ecs/taskdef-frank-worker.json", "taskdef.worker.json", worker_repl)
+          render("infrastructure/aws/ecs/taskdef-photon-ingest.json", "taskdef.ingest.json", ingest_repl)
+          render("infrastructure/aws/ecs/taskdef-background-workers.json", "taskdef.background.json", background_repl)
+          PY
+          echo "TASKDEF_WORKER=taskdef.worker.json" >> $GITHUB_OUTPUT
+          echo "TASKDEF_INGEST=taskdef.ingest.json" >> $GITHUB_OUTPUT
+          echo "TASKDEF_BACKGROUND=taskdef.background.json" >> $GITHUB_OUTPUT
+
+      - name: Register task definition
+        id: register
+        run: |
+          set -euo pipefail
+          WORKER_TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.taskdef.outputs.TASKDEF_WORKER }} \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          INGEST_TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.taskdef.outputs.TASKDEF_INGEST }} \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          BACKGROUND_TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.taskdef.outputs.TASKDEF_BACKGROUND }} \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "WORKER_TASK_DEF_ARN=$WORKER_TASK_DEF_ARN" >> $GITHUB_OUTPUT
+          echo "INGEST_TASK_DEF_ARN=$INGEST_TASK_DEF_ARN" >> $GITHUB_OUTPUT
+          echo "BACKGROUND_TASK_DEF_ARN=$BACKGROUND_TASK_DEF_ARN" >> $GITHUB_OUTPUT
+          echo "Registered task definitions:"
+          echo "  worker:     $WORKER_TASK_DEF_ARN"
+          echo "  ingest:     $INGEST_TASK_DEF_ARN"
+          echo "  background: $BACKGROUND_TASK_DEF_ARN"
+
+      - name: Create or update ECS service
+        env:
+          CREATE_SERVICE: ${{ inputs.create_service_if_missing }}
+          WORKER_TASK_DEF_ARN: ${{ steps.register.outputs.WORKER_TASK_DEF_ARN }}
+          INGEST_TASK_DEF_ARN: ${{ steps.register.outputs.INGEST_TASK_DEF_ARN }}
+          BACKGROUND_TASK_DEF_ARN: ${{ steps.register.outputs.BACKGROUND_TASK_DEF_ARN }}
+        run: |
+          set -euo pipefail
+          SUBNETS_JSON=$(python - <<PY
+          import os, json
+          xs=[x.strip() for x in os.environ["ECS_SUBNETS_CSV"].split(",") if x.strip()]
+          print(json.dumps(xs))
+          PY
+          )
+          SGS_JSON=$(python - <<PY
+          import os, json
+          xs=[x.strip() for x in os.environ["ECS_SECURITY_GROUPS_CSV"].split(",") if x.strip()]
+          print(json.dumps(xs))
+          PY
+          )
+
+          SERVICE_WORKER="$ECS_SERVICE"
+          SERVICE_INGEST="${ECS_SERVICE}-ingest"
+          SERVICE_BACKGROUND="${ECS_SERVICE}-background"
+
+          update_or_create() {
+            local service_name="$1"
+            local task_def_arn="$2"
+            local desired_count="$3"
+            local status
+            status=$(aws ecs describe-services \
+              --cluster "$ECS_CLUSTER" \
+              --services "$service_name" \
+              --query 'services[0].status' \
+              --output text 2>/dev/null || true)
+
+            if [ "$status" != "ACTIVE" ]; then
+              if [ "$CREATE_SERVICE" != "true" ]; then
+                echo "ECS service not active (status=$status) and create_service_if_missing=false"
+                exit 1
+              fi
+              echo "Creating ECS service: $service_name (cluster=$ECS_CLUSTER)"
+              aws ecs create-service \
+                --cluster "$ECS_CLUSTER" \
+                --service-name "$service_name" \
+                --launch-type FARGATE \
+                --desired-count "$desired_count" \
+                --enable-execute-command \
+                --task-definition "$task_def_arn" \
+                --network-configuration "awsvpcConfiguration={subnets=$SUBNETS_JSON,securityGroups=$SGS_JSON,assignPublicIp=ENABLED}"
+            else
+              echo "Updating ECS service: $service_name (cluster=$ECS_CLUSTER)"
+              aws ecs update-service \
+                --cluster "$ECS_CLUSTER" \
+                --service "$service_name" \
+                --task-definition "$task_def_arn" \
+                --desired-count "$desired_count" \
+                --force-new-deployment \
+                --enable-execute-command >/dev/null
+            fi
+          }
+
+          update_or_create "$SERVICE_INGEST" "$INGEST_TASK_DEF_ARN" "$ECS_INGEST_DESIRED_COUNT"
+          update_or_create "$SERVICE_WORKER" "$WORKER_TASK_DEF_ARN" "$ECS_WORKER_DESIRED_COUNT"
+          update_or_create "$SERVICE_BACKGROUND" "$BACKGROUND_TASK_DEF_ARN" "$ECS_BACKGROUND_DESIRED_COUNT"
+
+      - name: Wait for ECS service stability
+        run: |
+          set -euo pipefail
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "${ECS_SERVICE}-ingest"
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "${ECS_SERVICE}-background"
+
+      - name: Print running task public IPs (if any)
+        run: |
+          set -euo pipefail
+          TASK_ARNS=$(aws ecs list-tasks --cluster "$ECS_CLUSTER" --service-name "$ECS_SERVICE" --desired-status RUNNING --query 'taskArns' --output text || true)
+          if [ -z "$TASK_ARNS" ]; then
+            echo "No running tasks found yet."
+            exit 0
+          fi
+          echo "Tasks:"
+          echo "$TASK_ARNS"
+          aws ecs describe-tasks --cluster "$ECS_CLUSTER" --tasks $TASK_ARNS --query 'tasks[].attachments[].details[?name==`networkInterfaceId`].value' --output text | tr '\t' '\n' | while read -r ENI; do
+            if [ -n "$ENI" ]; then
+              PUB=$(aws ec2 describe-network-interfaces --network-interface-ids "$ENI" --query 'NetworkInterfaces[0].Association.PublicIp' --output text 2>/dev/null || true)
+              echo "ENI=$ENI public_ip=$PUB"
+            fi
+          done
+
+      - name: Create deployment summary
+        run: |
+          echo "## ECS Testing Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Cluster:** $ECS_CLUSTER" >> $GITHUB_STEP_SUMMARY
+          echo "**Services:** $ECS_SERVICE, ${ECS_SERVICE}-ingest, ${ECS_SERVICE}-background" >> $GITHUB_STEP_SUMMARY
+          echo "**Task family:** $ECS_TASK_FAMILY" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Region:** ${{ env.AWS_REGION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Image:** \`${{ steps.build-image.outputs.IMAGE_URI }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Env file ARN:** `$ECS_ENV_FILE_ARN`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Worker service (API + Kafka consumer): `$ECS_SERVICE`" >> $GITHUB_STEP_SUMMARY
+          echo "Ingest service (Photon listener): `${ECS_SERVICE}-ingest`" >> $GITHUB_STEP_SUMMARY
+          echo "Background workers service: `${ECS_SERVICE}-background`" >> $GITHUB_STEP_SUMMARY

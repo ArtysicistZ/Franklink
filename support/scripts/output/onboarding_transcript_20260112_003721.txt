@@ -1,0 +1,49 @@
+onboarding e2e transcript
+started_at: 2026-01-12T00:36:56.828851Z
+phone_number: +15558783666
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: cool, alex. i see you're into product management and ai. who do you want to meet and what do you want to gain from them?
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: got it. what specific feedback are you looking for from those product leads?
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink runs on what you offer, not just what you want. 
+intro starts at $99.00 but we're getting it to $0. 
+what specific skills, knowledge, or experiences do you have that could actually help others in the network?
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that's a solid achievement with that campus marketplace. 1.8k users is impressive.
+
+but what else do you bring to the table? running growth is great, but i need more distinct values from you. 
+
+bringing it down to $9.75. tell me about other skills, knowledge, or resources you have that could be useful to others in the network?
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, now we're talking. sharing playbooks on onboarding funnels is way better than just saying you help with growth. 
+
+contacts at seed funds? that's valuable, but we need to dig into that network. who do you know there that could actually help someone?
+
+bringing it down to $6.50. what other specific resources or experiences do you have that could be useful to others in the network?
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: nice, running a student builder club adds some depth. connecting people to solid engineers is a good resource too.
+
+but i need to know more about those engineers. what specific skills or experiences do they have that could help someone in the network?
+
+bringing it down to $3.25. let's keep building your value profile!

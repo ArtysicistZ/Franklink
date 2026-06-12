@@ -1,0 +1,47 @@
+onboarding e2e transcript
+started_at: 2026-01-11T21:03:21.615126Z
+phone_number: +15552971521
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: got it, alex. who do you want to connect with in product management or AI?
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: cool, alex. what specific feedback are you looking for from those product leads?
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink runs on mutual usefulness, not just connections. we start at $99.00 for intros, but that’ll drop to $0 as we find your value. what specific skills or experiences do you have that others would actually find useful?
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that’s a real number. a campus marketplace for 1.8k students is impressive, but growth stats are just one piece of the puzzle.
+
+what else do you bring to the table? any specific skills, knowledge, or resources that could benefit others?
+
+dropped you to $9.75. let’s see if you can keep that momentum going.
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, sharing playbooks on onboarding funnels and growth loops is a solid start. but let's be real, that's giving 'buzzword bingo' vibes. what specific results did those playbooks achieve?
+
+also, contacts at two seed funds is intriguing. can you tell me more about those connections and how they might add value to others?
+
+dropped you to $6.50. what else do you have in your toolkit that could help someone in this network?
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, now we're getting somewhere. running a builder club is a nice touch, but connecting to engineers feels a bit vague. 
+
+who are these engineers? what specific skills or projects do they have that could actually help others in this network?
+
+dropped you to $3.25. let's clarify how these connections can add real value.

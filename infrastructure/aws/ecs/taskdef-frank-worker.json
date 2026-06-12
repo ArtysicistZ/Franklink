@@ -1,0 +1,56 @@
+{
+  "family": "__ECS_TASK_FAMILY__",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "__ECS_TASK_CPU__",
+  "memory": "__ECS_TASK_MEMORY__",
+  "executionRoleArn": "__ECS_TASK_EXECUTION_ROLE_ARN__",
+  "taskRoleArn": "__ECS_TASK_ROLE_ARN__",
+  "containerDefinitions": [
+    {
+      "name": "api",
+      "image": "__IMAGE_URI__",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "PHOTON_INGEST_MODE", "value": "off" },
+        { "name": "PHOTON_CONSUMER_MODE", "value": "consumer" },
+        { "name": "COMPOSIO_API_KEY", "value": "__COMPOSIO_API_KEY__" },
+        { "name": "COMPOSIO_AUTH_CONFIG_ID", "value": "__COMPOSIO_AUTH_CONFIG_ID__" },
+        { "name": "LOGIN_PAGE_URL", "value": "__LOGIN_PAGE_URL__" }
+      ],
+      "workingDirectory": "/app",
+      "command": ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"],
+      "environmentFiles": [
+        {
+          "type": "s3",
+          "value": "__ECS_ENV_FILE_ARN__"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "python -c \"import requests; requests.get('http://localhost:8000/health', timeout=3).raise_for_status()\""
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 20
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "__ECS_LOG_GROUP__",
+          "awslogs-region": "__AWS_REGION__",
+          "awslogs-stream-prefix": "api"
+        }
+      }
+    }
+  ]
+}

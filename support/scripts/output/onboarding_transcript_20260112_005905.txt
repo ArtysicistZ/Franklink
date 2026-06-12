@@ -1,0 +1,42 @@
+onboarding e2e transcript
+started_at: 2026-01-12T00:59:03.858827Z
+phone_number: +15559812473
+-- turn 1 --
+user: hey, i am alex
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111c67cd0>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE
+
+-- turn 2 --
+user: i go to usc
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111c679a0>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE
+
+-- turn 3 --
+user: i am into product and ai
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111c67cd0>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111c67cd0>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111d39e00>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111d39e00>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111d39be0>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: [error] Expected dict, got <coroutine object run_execution_agent at 0x111d39be0>
+For troubleshooting, visit: https://python.langchain.com/docs/troubleshooting/errors/INVALID_GRAPH_NODE_RETURN_VALUE

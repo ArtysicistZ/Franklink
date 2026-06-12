@@ -1,0 +1,54 @@
+onboarding e2e transcript
+started_at: 2026-01-12T02:04:55.685692Z
+phone_number: +15558457598
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: just a quick reminder, you'll need to connect your work or school gmail to continue with the onboarding. do you want to do that now?
+
+-- turn 4 --
+user: done, connected
+frank: cool, alex. i see you're into product management and ai. who do you want to meet and what do you want to gain from them?
+
+-- turn 5 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: got it, alex. what kind of feedback are you looking for from those product leads?
+
+-- turn 6 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink runs on what you offer, not just what you want. 
+intro starts at $99.00 but we're getting it to $0. 
+what specific skills or experiences do you have that would genuinely help others in product management or artificial intelligence?
+
+-- turn 7 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that’s a concrete achievement. running a campus marketplace for 1.8k students is impressive. 
+
+but what else do you have? that feels like one piece of the puzzle. 
+dropped you to $9.75. 
+
+how about your network or any specific knowledge in product management or ai? what else can you offer?
+
+-- turn 8 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, now we're talking. sharing playbooks on onboarding funnels and growth loops is way more concrete than just 'helping with growth'.
+
+and having contacts at two seed funds is a solid addition. dropped you to $6.50. 
+
+but let's dig deeper: what specific insights or strategies from those playbooks can you share that would actually help someone in product management or ai?
+
+-- turn 9 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, nice addition with the student builder club. connecting people to engineers is a solid value, but let’s get more specific.
+
+what exactly did you do in that club that would help someone in product management or ai? 
+
+also, i'm bringing you down to $3.25 now. let's get that fee to $0.

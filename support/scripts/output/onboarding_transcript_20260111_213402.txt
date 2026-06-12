@@ -1,0 +1,49 @@
+onboarding e2e transcript
+started_at: 2026-01-11T21:33:38.941823Z
+phone_number: +15558757736
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: cool, alex. so who do you want to meet in product management or AI?
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: cool, so product leads at consumer startups for feedback and internships. any specific startups in mind?
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+franklink runs on mutual usefulness, not just connections. 
+intro starts at $99.00 but we'll get it down to $0 as you share your value. 
+what specific skills, knowledge, or experiences do you have that others in this network would actually find useful?
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: okay, that's a real number. a campus marketplace for 1.8k students is impressive.
+
+but running growth to 12 percent weekly? that sounds like a tagline, not a concrete action. what specific strategies did you use to achieve that?
+
+dropped you to $9.75. before i risk my reputation, i need more details on how you drove that growth.
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, now we're talking! onboarding funnels and growth loops are solid. that's more concrete than your last tagline.
+
+but let's not stop there. having contacts at two seed funds is also valuable. what specific insights or introductions can you provide from those connections?
+
+dropped you to $6.50. what else do you have in your toolkit that could be useful for others?
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: that's a nice addition! running a builder club shows leadership, but connecting to engineers feels a bit vague. 
+
+what specific skills or projects did those engineers contribute to? 
+
+bringing you down to $3.25. let's get more concrete value here. what unique resources or experiences do you have that could really help others out?

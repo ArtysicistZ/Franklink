@@ -1,0 +1,45 @@
+onboarding e2e transcript
+started_at: 2026-01-12T01:56:25.352971Z
+phone_number: +15552489712
+-- turn 1 --
+user: hey, i am alex
+frank: yo i'm frank. linkedin would accept anyone. i don't. quick thing - tap my name at the top and hit "add to contacts" so we don't lose each other.
+
+-- turn 2 --
+user: i go to usc
+frank: what careers are you into? auto-guessing finance or tech. money talks lol
+
+-- turn 3 --
+user: i am into product and ai
+frank: just a reminder, you'll need to connect your work or school gmail to continue with the onboarding. do you want to do that?
+
+-- turn 4 --
+user: done, connected
+frank: cool, alex. i see you're into product management and ai. who do you want to meet and what do you want to gain from them?
+
+-- turn 5 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: got it, alex. what specific feedback are you looking for from those product leads?
+
+-- turn 6 --
+user: ideally in la or remote, next 2-3 months
+frank: cool, alex. what kind of feedback are you hoping to get from those product leads?
+
+-- turn 7 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: locked.
+franklink runs on what you offer, not just what you want.  intro starts at $99.00 but we're getting it to $0.  what specific skills or projects do you have that can actually provide value to others in product management or artificial intelligence?
+
+-- turn 8 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: okay, sharing playbooks sounds like a solid start, but it’s giving 'marketing copy' vibes. what specific onboarding funnels or growth loops have you actually implemented?
+
+contacts at seed funds are interesting, but what do you bring to the table for them? dropped you to $9.75. let’s see more distinct value here. what other skills or resources can you offer?
+
+-- turn 9 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: okay, running a student builder club is a real move. connecting people to engineers is useful, but we need to dig deeper.
+
+that's a solid addition to your value, but what specific projects did your club tackle? any standout achievements or skills you gained from leading it? 
+
+dropped you to $6.50. let's see how you can expand on that.

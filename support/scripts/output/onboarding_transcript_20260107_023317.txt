@@ -1,0 +1,45 @@
+onboarding e2e transcript
+started_at: 2026-01-07T02:32:30.118385Z
+phone_number: +15558120441
+-- turn 1 --
+user: hey, i am alex
+frank: yo i’m frank. linkedin would accept anyone. i don’t. what school are you at?
+state: onboarding_stage=school waiting_for=school intro_fee_cents=None
+
+-- turn 2 --
+user: i go to usc
+frank: quick list. linkedin loves essays; i don’t. what careers are you into?
+state: onboarding_stage=career_interest waiting_for=career_interest intro_fee_cents=None
+
+-- turn 3 --
+user: i am into product and ai
+frank: cool, alex. so who do you want to meet in product management or AI?
+state: onboarding_stage=needs_eval waiting_for=user_input intro_fee_cents=None
+
+-- turn 4 --
+user: i want to meet product leads at consumer startups, mainly for feedback and early internships
+frank: got it. what specific feedback are you looking for from those product leads?
+state: onboarding_stage=needs_eval waiting_for=user_input intro_fee_cents=None
+
+-- turn 5 --
+user: ideally in la or remote, next 2-3 months
+frank: locked.
+hey alex, i know you want connections, but franklink isn’t linkedin. we’re all about mutual usefulness here, and intros are expensive. i need to know what you bring to the table before we chat about your needs. what skills or experiences do you have that could help others? also, the intro fee starts at $99 but can drop to $0.
+state: onboarding_stage=value_eval waiting_for=user_input intro_fee_cents=9900
+
+-- turn 6 --
+user: i built a campus marketplace used by 1.8k students and ran growth to 12 percent weekly
+frank: intro is $74.25 now. show value and it drops to $0.
+building a campus marketplace for 1.8k students is a solid achievement, alex. now, let's dig deeper. what other resources or networks do you have that could be valuable to others? the intro fee is down to $75 now, but it can drop to $0 if you show more value.
+state: onboarding_stage=value_eval waiting_for=user_input intro_fee_cents=7425
+
+-- turn 7 --
+user: i can share playbooks on onboarding funnels and growth loops, plus i have contacts at two seed funds
+frank: you're in.
+state: onboarding_stage=complete waiting_for=None intro_fee_cents=0
+
+-- turn 8 --
+user: i also ran a student builder club and can connect people to a few solid engineers
+frank: got it
+frank: perfect - i'll look for someone who meet product leads at consumer startups for feedback and early internships and get back to you
+state: onboarding_stage=complete waiting_for=initiator_confirmation intro_fee_cents=0
