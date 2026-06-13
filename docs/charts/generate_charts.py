@@ -113,17 +113,11 @@ def latency_vs_concurrency():
     ax.set_xlabel("Concurrent sessions", fontsize=11.5)
     ax.set_ylabel("Latency relative to single-session baseline", fontsize=11.5)
     ax.set_title(
-        "Flat below the concurrency cap, sub-linear above it, under the SLA at 100+",
-        fontsize=13.5, fontweight="bold", pad=12, loc="left",
+        "Latency vs. Concurrent Sessions",
+        fontsize=14.5, fontweight="bold", pad=12,
     )
     ax.legend(loc="upper left", frameon=False, fontsize=12)
-    fig.text(
-        0.013, 0.015,
-        "20 concurrent in-flight slots absorb up to ~20 sessions with no queueing; beyond the cap, keyed\n"
-        "concurrency + 1.5s coalescing keep growth sub-linear. p50/p95 measured at 100 sessions; rest interpolated.",
-        color=MUTED, fontsize=8.6,
-    )
-    fig.tight_layout(rect=(0, 0.06, 1, 1))
+    fig.tight_layout()
     fig.savefig(os.path.join(OUT, "latency_vs_concurrency.png"), bbox_inches="tight")
     plt.close(fig)
 
