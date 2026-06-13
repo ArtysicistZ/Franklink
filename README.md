@@ -90,7 +90,7 @@ Routing each message to only the relevant ExecutionAgent, instead of fanning out
 
 ### Tail latency holds under concurrency
 
-A Kafka-backed pipeline with **keyed per-partition concurrency**, bounded in-flight processing (20), and **1.5 s message coalescing** keeps p99 latency within **about 40% of the single-session baseline** as load scales past **100 concurrent sessions**. Messages from the same conversation are processed in order; different conversations run in parallel.
+A Kafka-backed pipeline with **keyed per-partition concurrency**, bounded in-flight processing (20), and **1.5 s message coalescing** keeps p99 latency within **about 40% of the single-session baseline** as load scales past **100 concurrent sessions**. Below the 20-slot in-flight cap there is essentially no queueing, so latency stays flat; beyond it, growth is sub-linear. Messages from the same conversation are processed in order; different conversations run in parallel.
 
 <div align="center">
 <img src="docs/charts/latency_vs_concurrency.png" width="760" alt="Tail latency stays within the SLA envelope as load scales to 100+ sessions" />
@@ -103,8 +103,6 @@ The producer runs with idempotence (`acks=all`); the consumer commits offsets ma
 <div align="center">
 <img src="docs/charts/retry_pipeline.png" width="820" alt="3-tier retry and DLQ delivery guarantee" />
 </div>
-
-> **Reproduce the charts:** `"<python>" docs/charts/generate_charts.py`. The p50 and p95 endpoints are measured; intermediate points are interpolated. See [`docs/KAFKA_CONCURRENCY_TEST.md`](docs/KAFKA_CONCURRENCY_TEST.md) for the load-test methodology.
 
 **Key tuning constants** (from [`app/config.py`](app/config.py) and [`app/integrations/kafka_pipeline.py`](app/integrations/kafka_pipeline.py)):
 
