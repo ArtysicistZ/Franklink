@@ -88,13 +88,17 @@ Routing each message to only the relevant ExecutionAgent, instead of fanning out
 <img src="docs/charts/selective_dispatch.png" width="720" alt="Selective dispatch cuts user-facing latency by about 30%" />
 </div>
 
-### Tail latency holds under concurrency
+### The orchestrator stays off the critical path
 
-A Kafka-backed pipeline with **keyed per-partition concurrency**, bounded in-flight processing (20), and **1.5 s message coalescing** keeps p99 latency within **about 40% of the single-session baseline** as load scales past **100 concurrent sessions**. Below the 20-slot in-flight cap there is essentially no queueing, so latency stays flat; beyond it, growth is sub-linear. Messages from the same conversation are processed in order; different conversations run in parallel.
+Each message is a handful of sequential `gpt-4o-mini` round-trips, and the runtime is I/O-bound: it `await`s those calls instead of burning CPU. So the **single-session p99 baseline is dominated by irreducible LLM time**, the latency you would pay even with one user. The distributed system's job is to add as little as possible on top of that.
+
+To measure it, a closed-loop load test runs **100 concurrent sessions** across **10 ECS workers**, each session behaving like a real user: send a message, wait for the reply, pause ~10 s to think, then send again. Under that load, p99 lands at **1.39× the single-session p99 baseline**: roughly **40% of added overhead**, the rest unchanged. Keyed concurrency keeps each conversation in order while different conversations run in parallel, so the LLM API, not the orchestrator or the queue, stays the bottleneck.
 
 <div align="center">
-<img src="docs/charts/latency_vs_concurrency.png" width="760" alt="Tail latency stays within the SLA envelope as load scales to 100+ sessions" />
+<img src="docs/charts/latency_vs_concurrency.png" width="760" alt="p99 latency at 100 concurrent active sessions is 1.39x the single-session p99 baseline, within the 40% budget" />
 </div>
+
+This characterizes concurrent *active* sessions (bursty, mostly idle) **within provisioned Azure OpenAI capacity**. Under sustained rate-limit throttling, tiered retry queues take over: they preserve delivery, not latency.
 
 ### At-least-once delivery with a 3-tier retry and DLQ
 

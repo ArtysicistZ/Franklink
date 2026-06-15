@@ -80,44 +80,41 @@ def _style(ax):
 def latency_vs_concurrency():
     sessions = np.array([1, 5, 10, 25, 50, 75, 100])
 
-    # Latency normalized to the single-session baseline (x). Below the in-flight
-    # cap (20 concurrent slots per consumer) there is essentially no queueing, so
-    # 5 and 10 sessions sit barely above baseline; the curve only bends once
-    # offered load passes the cap. p50/p95 at 100 sessions are measured
-    # (1.29x / 1.35x); intermediate points are interpolated.
-    p50 = np.array([1.00, 1.01, 1.02, 1.07, 1.16, 1.23, 1.29])
-    p95 = np.array([1.00, 1.02, 1.04, 1.10, 1.21, 1.28, 1.35])
+    # p99 latency relative to the SINGLE-SESSION p99 baseline. The baseline is
+    # dominated by ~4-5 sequential gpt-4o-mini round-trips (irreducible LLM time);
+    # work is I/O-bound under a 20-slot in-flight cap, so for concurrent ACTIVE
+    # sessions (bursty, sub-capacity) the runtime rarely queues and p99 grows only
+    # sub-linearly. Endpoint (1.39x at 100) measured; intermediate interpolated.
     p99 = np.array([1.00, 1.03, 1.05, 1.13, 1.25, 1.33, 1.39])
 
     fig, ax = plt.subplots(figsize=(10.0, 5.4))
     _style(ax)
 
-    # SLA ceiling band (anything above 1.4x baseline is a violation).
-    ax.axhspan(1.4, 1.7, color=ROSE, alpha=0.06, zorder=0)
-    ax.axhline(1.4, color=ROSE, lw=1.4, ls="--", zorder=2)
-    ax.text(
-        111, 1.413, "SLA ceiling: 1.4x baseline (p99 within 40%)  ",
-        color=ROSE, fontsize=10.5, va="bottom", ha="right", fontweight="bold",
-    )
+    # The irreducible reference: the single-session p99 baseline (mostly LLM time).
+    ax.axhline(1.0, color=INK, lw=1.5, zorder=2)
+    ax.text(116, 1.014, "1-session p99 baseline  (≈ irreducible LLM time)",
+            color=INK, fontsize=10, va="bottom", ha="right", fontweight="bold")
 
-    for y, c, lab in [(p50, BLUE, "p50"), (p95, TEAL, "p95"), (p99, AMBER, "p99")]:
-        ax.plot(sessions, y, "-o", color=c, lw=2.6, ms=6, label=lab, zorder=4)
-        ax.annotate(
-            f"{y[-1]:.2f}x", (sessions[-1], y[-1]),
-            textcoords="offset points", xytext=(8, -2),
-            color=c, fontsize=11.5, fontweight="bold",
-        )
+    # The single p99 curve.
+    ax.plot(sessions, p99, "-o", color=AMBER, lw=2.8, ms=7, label="p99", zorder=4)
+    ax.annotate("1.39x", (sessions[-1], p99[-1]),
+                textcoords="offset points", xytext=(8, -14),
+                color=AMBER, fontsize=12, fontweight="bold")
 
-    ax.set_xlim(0, 112)
-    ax.set_ylim(0.95, 1.55)
-    ax.set_xlabel("Concurrent sessions", fontsize=11.5)
-    ax.set_ylabel("Latency relative to single-session baseline", fontsize=11.5)
+    ax.set_xlim(0, 118)
+    ax.set_ylim(0.96, 1.46)
+    ax.set_xlabel("Concurrent active sessions", fontsize=11.5)
+    ax.set_ylabel("p99 latency relative to single-session p99 baseline", fontsize=11.5)
     ax.set_title(
-        "Latency vs. Concurrent Sessions",
+        "p99 Latency vs. Concurrent Sessions",
         fontsize=14.5, fontweight="bold", pad=12,
     )
-    ax.legend(loc="upper left", frameon=False, fontsize=12)
-    fig.tight_layout()
+    fig.text(0.013, 0.02,
+             "Closed-loop load test on 10 ECS workers: 100 concurrent sessions, each looping  "
+             "send → reply → ~10 s think time.\n"
+             "p99 vs single-session p99 baseline; 100-session point measured, rest interpolated.",
+             color=MUTED, fontsize=8.6, va="bottom")
+    fig.tight_layout(rect=(0, 0.075, 1, 1))
     fig.savefig(os.path.join(OUT, "latency_vs_concurrency.png"), bbox_inches="tight")
     plt.close(fig)
 
